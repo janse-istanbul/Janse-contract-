@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="apple-touch-icon" href="IMG_0546.png">
+<link rel="icon" href="IMG_0546.png">
+<title>JANSE Contract — Architectural Studio</title>
+<style>
+  :root {
+    --bg: #f6f5f0;
+    --sf: #ffffff;
+    --sf-alt: #efede6;
+    --tx: #141413;
+    --mt: #5c5b57;
+    --ln: #c8c5bc;
+    --ln-strong: #141413;
+    --pr: #9a6b2f;
+    --pr-hover: #7c5422;
+    --pt: #ffffff;
+    --ac: #1e3a5f;
+    --ok: #1b5e20;
+    --er: #991b1b;
+    --sel: #e8e2d2;
+    --grid-line: rgba(20, 20, 19, 0.055);
+    --grid-major: rgba(20, 20, 19, 0.11);
+    --shadow-arch: 4px 4px 0px rgba(20, 20, 19, 0.12);
+    --radius: 2px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1012;
+      --sf: #17191c;
+      --sf-alt: #1f2226;
+      --tx: #f2f0ea;
+      --mt: #9ca3af;
+      --ln: #32363d;
+      --ln-strong: #d4af37;
+      --pr: #c99a45;
+      --pr-hover: #dfb15b;
+      --pt: #0f1012;
+      --ac: #60a5fa;
+      --ok: #4ade80;
+      --er: #f87171;
+      --sel: #29251c;
+      --grid-line: rgba(255, 255, 255, 0.04);
+      --grid-major: rgba(212, 175, 55, 0.09);
+      --shadow-arch: 4px 4px 0px rgba(0, 0, 0, 0.55);
+    }
+  }
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    color: var(--tx);
+    font-family: 'Vazirmatn', 'Jost', Tahoma, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Architectural Header */
+  header {
+    background: var(--sf);
+    border-bottom: 2px solid var(--ln-strong);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--pr);
+  }
+
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand-box img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    border: 1px solid var(--ln);
+    padding: 2px;
+    background: #fff;
+  }
+
+  .brand-title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-title h1 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tx);
+    line-height: 1.2;
+  }
+
+  .brand-title span {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--pr);
+    font-weight: 600;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  select, input, textarea {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--tx);
+    background: var(--sf);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  input, textarea {
+    width: 100%;
+  }
+
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--pr);
+    box-shadow: inset 2px 0 0 var(--pr);
+  }
+
+  /* Stepper Navigation */
+  nav {
+    display: flex;
+    background: var(--sf-alt);
+    border-bottom: 1px solid var(--ln);
+    padding: 12px 24px;
+    gap: 12px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  nav button {
+    flex: 1;
+    min-width: 150px;
+    padding: 11px 16px;
+    background: var(--sf);
+    color: var(--mt);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+  }
+
+  nav button:hover {
+    border-color: var(--ln-strong);
+    color: var(--tx);
+  }
+
+  nav button.active {
+    background: var(--tx);
+    color: var(--sf);
+    border-color: var(--tx);
+    box-shadow: 3px 3px 0px var(--pr);
+  }
+
+  /* Main Studio Workspace */
+  main {
+    max-width: 1140px;
+    margin: 28px auto 96px auto;
+    padding: 0 20px;
+  }
+
+  /* Drafting Sheet Cards */
+  .card {
+    background: var(--sf);
+    border: 1px solid var(--ln-strong);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-arch);
+    position: relative;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 3px;
+    background: var(--pr);
+  }
+
+  .card h2, .card h3 {
+    margin: 0 0 18px 0;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--tx);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ln);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--mt);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Preset Template Buttons */
+  .presets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .preset-btn {
+    background: var(--sf-alt);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tx);
+    cursor: pointer;
+    text-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.15s ease;
+  }
+
+  .preset-btn:hover, .preset-btn.selected {
+    background: var(--sel);
+    border-color: var(--pr);
+    box-shadow: 2px 2px 0 var(--pr);
+  }
+
+  /* Architectural Service Checklist */
+  .service-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  .service-item {
+    border: 1px solid var(--ln);
+    background: var(--sf);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.15s ease;
+  }
+
+  .service-item.checked {
+    border-color: var(--pr);
+    background: var(--sel);
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .service-header input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--pr);
+    cursor: pointer;
+  }
+
+  .service-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--ln);
+  }
+
+  /* Primary & Secondary Action Buttons */
+  .btn-primary {
+    background: var(--pr);
+    color: var(--pt);
+    border: 1px solid var(--ln-strong);
+    border-radius: var(--radius);
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ln-strong);
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--pr-hover);
+  }
+
+  .btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ln-strong);
+  }
+
+  .btn-secondary {
+    background: var(--sf);
+    color: var(--tx);
+    border: 1px solid var(--ln-strong);
+    border-radius: var(--radius);
+    padding: 11px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Formal Contract Document Sheet */
+  .contract-sheet {
+    background: #ffffff;
+    color: #141413;
+    border: 2px solid #141413;
+    padding: 36px;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  .contract-sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #141413;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+
+  .contract-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+
+  .contract-table th, .contract-table td {
+    border: 1px solid #141413;
+    padding: 10px 12px;
+    text-align: start;
+  }
+
+  .contract-table th {
+    background: #efede6;
+    font-weight: 800;
+  }
+
+  .signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #141413;
+  }
+
+  .signature-box {
+    border: 1px dashed #5c5b57;
+    padding: 16px;
+    min-height: 110px;
+  }
+
+  .hidden { display: none !important; }
+
+  @media print {
+    body { background: #fff !important; }
+    header, nav, .no-print { display: none !important; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .card { border: none; box-shadow: none; padding: 0; }
+    .contract-sheet { border: 2px solid #000; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-box">
+    <img src="IMG_0546.png" alt="JANSE Logo" onerror="this.style.display='none'">
+    <div class="brand-title">
+      <h1>JANSE CONTRACT</h1>
+      <span id="ui-subtitle">ARCHITECTURAL RENOVATION &amp; INTERIOR CONTRACT SYSTEM</span>
+    </div>
+  </div>
+  <div class="header-controls">
+    <select id="langSelect" onchange="setLanguage(this.value)">
+      <option value="fa">فارسی (FA)</option>
+      <option value="tr">Türkçe (TR)</option>
+      <option value="en">English (EN)</option>
+      <option value="ar">العربية (AR)</option>
+    </select>
+  </div>
+</header>
+
+<nav>
+  <button id="tab-1" class="active" onclick="showStep(1)">01. <span data-i18n="step1">طرفین و مشخصات ملک</span></button>
+  <button id="tab-2" onclick="showStep(2)">02. <span data-i18n="step2">شرح خدمات معماری و اجرا</span></button>
+  <button id="tab-3" onclick="showStep(3)">03. <span data-i18n="step3">شرایط مالی و زمان‌بندی</span></button>
+  <button id="tab-4" onclick="showStep(4)">04. <span data-i18n="step4">سند نهایی قرارداد</span></button>
+</nav>
+
+<main>
+  <!-- STEP 1: PARTIES & PROPERTY -->
+  <section id="step-1" class="step-section">
+    <div class="card">
+      <h2><span data-i18n="contractorTitle">مشخصات مجری / استودیو معماری</span> <span>ARCH-01</span></h2>
+      <div class="grid">
+        <div>
+          <label data-i18n="companyName">نام شرکت / استودیو</label>
+          <input type="text" id="c_name" value="JANSE Architecture & Renovation">
+        </div>
+        <div>
+          <label data-i18n="taxNumber">شماره مالیاتی (Vergi No / T.C.)</label>
+          <input type="text" id="c_tax" placeholder="1234567890">
+        </div>
+        <div>
+          <label data-i18n="phone">شماره تماس</label>
+          <input type="text" id="c_phone" placeholder="+90 5XX XXX XX XX">
+        </div>
+        <div>
+          <label data-i18n="address">آدرس دفتر</label>
+          <input type="text" id="c_addr" value="İstanbul, Türkiye">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span data-i18n="clientTitle">مشخصات کارفرما و پروژه</span> <span>ARCH-02</span></h2>
+      <div class="grid">
+        <div>
+          <label data-i18n="clientName">نام و نام خانوادگی کارفرما</label>
+          <input type="text" id="cl_name">
+        </div>
+        <div>
+          <label data-i18n="clientId">شماره شناسایی (T.C. / Passport)</label>
+          <input type="text" id="cl_id">
+        </div>
+        <div>
+          <label data-i18n="clientPhone">تلفن کارفرما</label>
+          <input type="text" id="cl_phone">
+        </div>
+        <div>
+          <label data-i18n="projectType">کاربری ملک</label>
+          <select id="p_type">
+            <option value="apartment" data-i18n="typeApt">واحد مسکونی / آپارتمان</option>
+            <option value="shop" data-i18n="typeShop">واحد تجاری / مغازه</option>
+            <option value="office" data-i18n="typeOffice">دفتر کار / اداری</option>
+            <option value="villa" data-i18n="typeVilla">ویلا</option>
+          </select>
+        </div>
+        <div>
+          <label data-i18n="area">متراژ کل (متر مربع)</label>
+          <input type="number" id="p_area" placeholder="120">
+        </div>
+        <div>
+          <label data-i18n="projectAddr">آدرس دقیق پروژه</label>
+          <input type="text" id="p_addr">
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end;">
+      <button class="btn-primary" onclick="showStep(2)" data-i18n="nextBtn">مرحله بعد ←</button>
+    </div>
+  </section>
+
+  <!-- STEP 2: ARCHITECTURAL SERVICES -->
+  <section id="step-2" class="step-section hidden">
+    <div class="card">
+      <h2><span data-i18n="presetTitle">الگوهای آماده پروژه</span> <span>SPEC-01</span></h2>
+      <div class="presets">
+        <button class="preset-btn" onclick="applyPreset('full')">
+          <span data-i18n="presetFull">بازسازی کامل آپارتمان</span> <span>+</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('kitchen')">
+          <span data-i18n="presetKitchen">طراحی و اجرای آشپزخانه</span> <span>+</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('bath')">
+          <span data-i18n="presetBath">بازسازی سرویس و حمام</span> <span>+</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('shop')">
+          <span data-i18n="presetShop">دکوراسیون تجاری و مغازه</span> <span>+</span>
+        </button>
+      </div>
+
+      <h2><span data-i18n="servicesTitle">لیست آیتم‌های اجرایی و متره</span> <span>BOQ-02</span></h2>
+      <div class="service-list" id="servicesContainer"></div>
+
+      <div style="margin-top:18px; display:flex; gap:10px;">
+        <input type="text" id="customServiceInput" data-i18n-placeholder="customPlaceholder" placeholder="افزودن آیتم سفارشی جدید...">
+        <button class="btn-secondary" onclick="addCustomService()" data-i18n="addBtn">افزودن</button>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between;">
+      <button class="btn-secondary" onclick="showStep(1)" data-i18n="prevBtn">→ مرحله قبل</button>
+      <button class="btn-primary" onclick="showStep(3)" data-i18n="nextBtn">مرحله بعد ←</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: TERMS & PAYMENT -->
+  <section id="step-3" class="step-section hidden">
+    <div class="card">
+      <h2><span data-i18n="financialTitle">برآورد مالی و شرایط پرداخت</span> <span>FIN-03</span></h2>
+      <div class="grid">
+        <div>
+          <label data-i18n="currency">واحد پول قرارداد</label>
+          <select id="currency" onchange="updateTotals()">
+            <option value="TRY">TRY (₺) - لیر ترکیه</option>
+            <option value="USD">USD ($) - دلار آمریکا</option>
+            <option value="EUR">EUR (€) - یورو</option>
+          </select>
+        </div>
+        <div>
+          <label data-i18n="startDate">تاریخ شروع پروژه</label>
+          <input type="date" id="start_date">
+        </div>
+        <div>
+          <label data-i18n="duration">مدت زمان اجرا (روز کاری)</label>
+          <input type="number" id="duration_days" value="30">
+        </div>
+        <div>
+          <label data-i18n="warranty">مدت گارانتی اجرا (ماه)</label>
+          <input type="number" id="warranty_months" value="12">
+        </div>
+        <div>
+          <label data-i18n="advancePct">درصد پیش‌پرداخت (%)</label>
+          <input type="number" id="advance_pct" value="40" oninput="updateTotals()">
+        </div>
+        <div>
+          <label data-i18n="midPct">درصد پرداخت میانی (%)</label>
+          <input type="number" id="mid_pct" value="40" oninput="updateTotals()">
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <label data-i18n="extraNotes">توضیحات تکمیلی و تعهدات خاص</label>
+        <textarea id="extra_notes" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between;">
+      <button class="btn-secondary" onclick="showStep(2)" data-i18n="prevBtn">→ مرحله قبل</button>
+      <button class="btn-primary" onclick="generateContract(); showStep(4)" data-i18n="buildContractBtn">تولید سند قرارداد ←</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: CONTRACT PREVIEW & PRINT -->
+  <section id="step-4" class="step-section hidden">
+    <div class="no-print" style="display:flex; justify-content:space-between; margin-bottom:16px;">
+      <button class="btn-secondary" onclick="showStep(3)" data-i18n="prevBtn">→ ویرایش اطلاعات</button>
+      <button class="btn-primary" onclick="window.print()" data-i18n="printBtn">چاپ / ذخیره PDF رسمی</button>
+    </div>
+
+    <div class="contract-sheet" id="contractOutput"></div>
+  </section>
+</main>
+
+<script>
+const i18n = {
+  fa: {
+    dir: "rtl",
+    subtitle: "سامانه مهندسی قراردادهای معماری و بازسازی",
+    step1: "طرفین و مشخصات ملک",
+    step2: "شرح خدمات معماری و اجرا",
+    step3: "شرایط مالی و زمان‌بندی",
+    step4: "سند نهایی قرارداد",
+    contractorTitle: "مشخصات مجری / استودیو معماری",
+    companyName: "نام شرکت / استودیو",
+    taxNumber: "شماره مالیاتی (Vergi No)",
+    phone: "شماره تماس",
+    address: "آدرس دفتر",
+    clientTitle: "مشخصات کارفرما و پروژه",
+    clientName: "نام و نام خانوادگی کارفرما",
+    clientId: "شماره شناسایی (T.C. / پاسپورت)",
+    clientPhone: "تلفن کارفرما",
+    projectType: "کاربری ملک",
+    typeApt: "واحد مسکونی / آپارتمان",
+    typeShop: "واحد تجاری / مغازه",
+    typeOffice: "دفتر کار / اداری",
+    typeVilla: "ویلا",
+    area: "متراژ کل (متر مربع)",
+    projectAddr: "آدرس دقیق پروژه",
+    nextBtn: "مرحله بعد ←",
+    prevBtn: "→ مرحله قبل",
+    presetTitle: "الگوهای آماده پروژه",
+    presetFull: "بازسازی کامل آپارتمان",
+    presetKitchen: "طراحی و اجرای آشپزخانه",
+    presetBath: "بازسازی سرویس و حمام",
+    presetShop: "دکوراسیون تجاری و مغازه",
+    servicesTitle: "لیست آیتم‌های اجرایی و متره",
+    customPlaceholder: "افزودن آیتم سفارشی جدید...",
+    addBtn: "افزودن",
+    financialTitle: "برآورد مالی و شرایط پرداخت",
+    currency: "واحد پول قرارداد",
+    startDate: "تاریخ شروع پروژه",
+    duration: "مدت زمان اجرا (روز کاری)",
+    warranty: "مدت گارانتی اجرا (ماه)",
+    advancePct: "درصد پیش‌پرداخت (%)",
+    midPct: "درصد پرداخت میانی (%)",
+    extraNotes: "توضیحات تکمیلی و تعهدات خاص",
+    buildContractBtn: "تولید سند قرارداد ←",
+    printBtn: "چاپ / ذخیره PDF رسمی",
+    qtyLabel: "متراژ / تعداد",
+    priceLabel: "فی واحد",
+    docTitle: "قرارداد پیمانکاری طراحی داخلی و بازسازی",
+    partyA: "طرف اول (مجری):",
+    partyB: "طرف دوم (کارفرما):",
+    colItem: "شرح عملیات اجرایی",
+    colQty: "مقدار",
+    colUnit: "مبلغ واحد",
+    colTotal: "مبلغ کل",
+    grandTotal: "مبلغ کل قرارداد:",
+    paymentTerms: "نحوه پرداخت:",
+    signContractor: "مهر و امضای مجری",
+    signClient: "امضای کارفرما",
+    legalClause: "مجری متعهد می‌شود کلیه عملیات اجرایی را مطابق نقشه‌های تایید شده، استانداردهای مهندسی و در مدت زمان تعیین‌شده به انجام برساند."
+  },
+  tr: {
+    dir: "ltr",
+    subtitle: "MİMARİ TADİLAT VE İÇ DEKORASYON SÖZLEŞME SİSTEMİ",
+    step1: "Taraflar ve Mülk Bilgileri",
+    step2: "Mimari Hizmetler ve Metraj",
+    step3: "Finansal Şartlar ve Süre",
+    step4: "Resmi Sözleşme Belgesi",
+    contractorTitle: "Yüklenici / Mimarlık Ofisi Bilgileri",
+    companyName: "Firma / Ofis Ünvanı",
+    taxNumber: "Vergi No / T.C. Kimlik No",
+    phone: "Telefon",
+    address: "Ofis Adresi",
+    clientTitle: "İşveren ve Proje Bilgileri",
+    clientName: "İşveren Adı Soyadı",
+    clientId: "T.C. Kimlik / Pasaport No",
+    clientPhone: "İşveren Telefonu",
+    projectType: "Mülk Türü",
+    typeApt: "Konut / Daire",
+    typeShop: "Ticari Alan / Mağaza",
+    typeOffice: "Ofis / İşyeri",
+    typeVilla: "Villa",
+    area: "Toplam Alan (m²)",
+    projectAddr: "Proje Uygulama Adresi",
+    nextBtn: "Sonraki Adım →",
+    prevBtn: "← Önceki Adım",
+    presetTitle: "Hazır Proje Şablonları",
+    presetFull: "Komple Daire Tadilatı",
+    presetKitchen: "Mutfak Tasarım ve Uygulama",
+    presetBath: "Banyo ve WC Yenileme",
+    presetShop: "Mağaza ve Vitrin Dekorasyonu",
+    servicesTitle: "Uygulama Kalemleri ve Birim Fiyatlar",
+    customPlaceholder: "Özel imalat kalemi ekle...",
+    addBtn: "Ekle",
+    financialTitle: "Bütçe ve Ödeme Planı",
+    currency: "Para Birimi",
+    startDate: "İşe Başlama Tarihi",
+    duration: "Teslim Süresi (İş Günü)",
+    warranty: "İşçilik Garantisi (Ay)",
+    advancePct: "Peşinat Oranı (%)",
+    midPct: "Ara Ödeme Oranı (%)",
+    extraNotes: "Özel Şartlar ve Notlar",
+    buildContractBtn: "Sözleşmeyi Oluştur →",
+    printBtn: "Yazdır / Resmi PDF Kaydet",
+    qtyLabel: "Miktar / m²",
+    priceLabel: "Birim Fiyat",
+    docTitle: "İÇ MİMARİ VE TADİLAT UYGULAMA SÖZLEŞMESİ",
+    partyA: "YÜKLENİCİ FİRMA:",
+    partyB: "İŞVEREN (MÜŞTERİ):",
+    colItem: "İş Kalemi Açıklaması",
+    colQty: "Miktar",
+    colUnit: "Birim Fiyat",
+    colTotal: "Toplam Tutar",
+    grandTotal: "GENEL TOPLAM:",
+    paymentTerms: "Ödeme Planı:",
+    signContractor: "Yüklenici Kaşe ve İmza",
+    signClient: "İşveren İmza",
+    legalClause: "Yüklenici, işbu sözleşme kapsamındaki tüm imalatları onaylı projeye ve teknik şartnamelere uygun olarak süresinde teslim etmeyi taahhüt eder."
+  },
+  en: {
+    dir: "ltr",
+    subtitle: "ARCHITECTURAL RENOVATION & INTERIOR CONTRACT SYSTEM",
+    step1: "Parties & Property",
+    step2: "Architectural Scope",
+    step3: "Financials & Schedule",
+    step4: "Final Contract",
+    contractorTitle: "Contractor / Architectural Studio",
+    companyName: "Studio / Company Name",
+    taxNumber: "Tax ID / Registration No",
+    phone: "Phone Number",
+    address: "Office Address",
+    clientTitle: "Client & Project Details",
+    clientName: "Client Full Name",
+    clientId: "ID / Passport Number",
+    clientPhone: "Client Phone",
+    projectType: "Property Type",
+    typeApt: "Residential Apartment",
+    typeShop: "Commercial Retail / Shop",
+    typeOffice: "Corporate Office",
+    typeVilla: "Private Villa",
+    area: "Total Area (m²)",
+    projectAddr: "Project Site Address",
+    nextBtn: "Next Step →",
+    prevBtn: "← Previous Step",
+    presetTitle: "Project Presets",
+    presetFull: "Full Apartment Renovation",
+    presetKitchen: "Kitchen Remodeling",
+    presetBath: "Bathroom Renovation",
+    presetShop: "Retail Store Fit-Out",
+    servicesTitle: "Bill of Quantities & Execution Items",
+    customPlaceholder: "Add custom architectural item...",
+    addBtn: "Add",
+    financialTitle: "Financial Terms & Timeline",
+    currency: "Contract Currency",
+    startDate: "Commencement Date",
+    duration: "Execution Duration (Working Days)",
+    warranty: "Workmanship Warranty (Months)",
+    advancePct: "Advance Payment (%)",
+    midPct: "Progress Payment (%)",
+    extraNotes: "Additional Clauses & Notes",
+    buildContractBtn: "Generate Contract →",
+    printBtn: "Print / Save Official PDF",
+    qtyLabel: "Qty / m²",
+    priceLabel: "Unit Price",
+    docTitle: "ARCHITECTURAL INTERIOR RENOVATION CONTRACT",
+    partyA: "CONTRACTOR:",
+    partyB: "CLIENT:",
+    colItem: "Scope of Work Description",
+    colQty: "Qty",
+    colUnit: "Unit Price",
+    colTotal: "Total",
+    grandTotal: "TOTAL CONTRACT VALUE:",
+    paymentTerms: "Payment Schedule:",
+    signContractor: "Contractor Stamp & Signature",
+    signClient: "Client Signature",
+    legalClause: "The Contractor agrees to execute all specified works in accordance with approved architectural drawings and engineering standards within the agreed timeline."
+  },
+  ar: {
+    dir: "rtl",
+    subtitle: "نظام العقود الهندسية للتصميم الداخلي والترميم",
+    step1: "الأطراف وبيانات العقار",
+    step2: "نطاق الأعمال الهندسية",
+    step3: "الشروط المالية والجدول الزمني",
+    step4: "وثيقة العقد النهائية",
+    contractorTitle: "بيانات المنفذ / المكتب الهندسي",
+    companyName: "اسم الشركة / المكتب",
+    taxNumber: "الرقم الضريبي",
+    phone: "رقم الهاتف",
+    address: "عنوان المكتب",
+    clientTitle: "بيانات العميل والمشروع",
+    clientName: "اسم العميل الكامل",
+    clientId: "رقم الهوية / جواز السفر",
+    clientPhone: "هاتف العميل",
+    projectType: "نوع العقار",
+    typeApt: "شقة سكنية",
+    typeShop: "محل تجاري",
+    typeOffice: "مكتب إداري",
+    typeVilla: "فيلا",
+    area: "المساحة الإجمالية (م²)",
+    projectAddr: "عنوان المشروع بالتفصيل",
+    nextBtn: "الخطوة التالية ←",
+    prevBtn: "→ الخطوة السابقة",
+    presetTitle: "قوالب المشاريع الجاهزة",
+    presetFull: "ترميم شامل للشقة",
+    presetKitchen: "تصميم وتنفيذ المطبخ",
+    presetBath: "تجديد الحمامات",
+    presetShop: "تجهيز وديكور محل تجاري",
+    servicesTitle: "جدول الكميات وبنود التنفيذ",
+    customPlaceholder: "إضافة بند هندسي مخصص...",
+    addBtn: "إضافة",
+    financialTitle: "التقدير المالي وشروط الدفع",
+    currency: "عملة العقد",
+    startDate: "تاريخ بدء العمل",
+    duration: "مدة التنفيذ (أيام عمل)",
+    warranty: "ضمان التنفيذ (أشهر)",
+    advancePct: "نسبة الدفعة المقدمة (%)",
+    midPct: "نسبة الدفعة الوسطى (%)",
+    extraNotes: "ملاحظات وشروط إضافية",
+    buildContractBtn: "إنشاء وثيقة العقد ←",
+    printBtn: "طباعة / حفظ PDF رسمي",
+    qtyLabel: "الكمية / م²",
+    priceLabel: "سعر الوحدة",
+    docTitle: "عقد مقاولة تصميم داخلي وأعمال ترميم",
+    partyA: "الطرف الأول (المنفذ):",
+    partyB: "الطرف الثاني (العميل):",
+    colItem: "بيان الأعمال",
+    colQty: "الكمية",
+    colUnit: "سعر الوحدة",
+    colTotal: "الإجمالي",
+    grandTotal: "إجمالي قيمة العقد:",
+    paymentTerms: "جدول الدفعات:",
+    signContractor: "ختم وتوقيع المنفذ",
+    signClient: "توقيع العميل",
+    legalClause: "يلتزم الطرف الأول بتنفيذ جميع الأعمال المتفق عليها وفق المخططات المعتمدة والمواصفات الهندسية خلال المدة المحددة."
+  }
+};
+
+let servicesData = [
+  { id: "demolition", checked: false, qty: 1, price: 0, labels: { fa: "تخریب، جمع‌آوری و حمل نخاله", tr: "Kırım, Söküm ve Moloz Atımı", en: "Demolition & Debris Removal", ar: "أعمال الهدم وإزالة الأنقاض" } },
+  { id: "masonry", checked: false, qty: 1, price: 0, labels: { fa: "دیوارچینی و تیغه‌کشی (آجر / کناف)", tr: "Duvar Örme ve Alçıpan Bölme", en: "Masonry & Drywall Partitions", ar: "بناء القواطع والجدران الجبسية" } },
+  { id: "plaster", checked: false, qty: 1, price: 0, labels: { fa: "گچ‌کاری، زیرسازی و سقف کاذب", tr: "Sıva, Alçı ve Asma Tavan Uygulaması", en: "Plastering & Suspended Ceilings", ar: "اللياسة والأسقف المستعارة" } },
+  { id: "ceramic", checked: false, qty: 1, price: 0, labels: { fa: "سرامیک‌کاری و سنگ‌کاری کف و دیوار", tr: "Seramik ve Doğal Taş Kaplama", en: "Ceramic & Natural Stone Tiling", ar: "تركيب السيراميك والرخام" } },
+  { id: "parquet", checked: false, qty: 1, price: 0, labels: { fa: "اجرای پارکت لمینت و قرنیز", tr: "Laminat Parke ve Süpürgelik", en: "Laminate Parquet Flooring", ar: "تركيب الباركيه والنعلة" } },
+  { id: "painting", checked: false, qty: 1, price: 0, labels: { fa: "نقاشی ساختمان و پوشش‌های دکوراتیو", tr: "İç Cephe Boya ve Dekoratif Kaplama", en: "Interior Painting & Wall Finishes", ar: "الدهانات والديكورات الجدارية" } },
+  { id: "electrical", checked: false, qty: 1, price: 0, labels: { fa: "تأسیسات برق، نورپردازی و لاین نوری", tr: "Elektrik Tesisatı ve Lineer Aydınlatma", en: "Electrical Wiring & Architectural Lighting", ar: "التمديدات الكهربائية والإضاءة" } },
+  { id: "plumbing", checked: false, qty: 1, price: 0, labels: { fa: "تأسیسات آب، فاضلاب و گرمایش", tr: "Sıhhi Tesisat ve Isıtma Altyapısı", en: "Plumbing & Heating Infrastructure", ar: "تمديدات السباكة والتدفئة" } },
+  { id: "cabinet", checked: false, qty: 1, price: 0, labels: { fa: "طراحی و ساخت کابینت و کمد دیواری", tr: "Mutfak Dolabı ve Özel Mobilya İmalatı", en: "Custom Cabinetry & Millwork", ar: "تفصيل الخزائن والمطابخ" } },
+  { id: "sanitary", checked: false, qty: 1, price: 0, labels: { fa: "نصب شیرآلات و تجهیزات سرویس بهداشتی", tr: "Vitrifiye ve Armatür Montajı", en: "Sanitary Ware & Fixtures Installation", ar: "تركيب الأدوات الصحية" } }
+];
+
+let currentLang = "fa";
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const dict = i18n[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = dict.dir;
+  document.getElementById("ui-subtitle").textContent = dict.subtitle;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.textContent = dict[key];
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (dict[key]) el.placeholder = dict[key];
+  });
+
+  renderServices();
+}
+
+function showStep(step) {
+  document.querySelectorAll(".step-section").forEach(s => s.classList.add("hidden"));
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.getElementById("step-" + step).classList.remove("hidden");
+  document.getElementById("tab-" + step).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderServices() {
+  const container = document.getElementById("servicesContainer");
+  const dict = i18n[currentLang];
+  container.innerHTML = "";
+
+  servicesData.forEach((srv, idx) => {
+    const labelText = srv.labels[currentLang] || srv.labels.en;
+    const div = document.createElement("div");
+    div.className = "service-item" + (srv.checked ? " checked" : "");
+    div.innerHTML = `
+      <label class="service-header">
+        <span>${labelText}</span>
+        <input type="checkbox" ${srv.checked ? "checked" : ""} onchange="toggleService(${idx}, this.checked)">
+      </label>
+      <div class="service-fields ${srv.checked ? "" : "hidden"}">
+        <div>
+          <label>${dict.qtyLabel}</label>
+          <input type="number" value="${srv.qty}" min="1" onchange="updateServiceVal(${idx}, 'qty', this.value)">
+        </div>
+        <div>
+          <label>${dict.priceLabel}</label>
+          <input type="number" value="${srv.price}" min="0" onchange="updateServiceVal(${idx}, 'price', this.value)">
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function toggleService(idx, checked) {
+  servicesData[idx].checked = checked;
+  renderServices();
+}
+
+function updateServiceVal(idx, field, val) {
+  servicesData[idx][field] = parseFloat(val) || 0;
+}
+
+function addCustomService() {
+  const inp = document.getElementById("customServiceInput");
+  const text = inp.value.trim();
+  if (!text) return;
+  servicesData.push({
+    id: "custom_" + Date.now(),
+    checked: true,
+    qty: 1,
+    price: 0,
+    labels: { fa: text, tr: text, en: text, ar: text }
+  });
+  inp.value = "";
+  renderServices();
+}
+
+function applyPreset(type) {
+  const map = {
+    full: ["demolition", "masonry", "plaster", "ceramic", "parquet", "painting", "electrical", "plumbing", "cabinet", "sanitary"],
+    kitchen: ["demolition", "ceramic", "electrical", "plumbing", "cabinet"],
+    bath: ["demolition", "ceramic", "plumbing", "sanitary"],
+    shop: ["demolition", "plaster", "parquet", "painting", "electrical", "cabinet"]
+  };
+  const selected = map[type] || [];
+  servicesData.forEach(s => {
+    s.checked = selected.includes(s.id);
+  });
+  renderServices();
+}
+
+function generateContract() {
+  const dict = i18n[currentLang];
+  const cur = document.getElementById("currency").value;
+  const activeServices = servicesData.filter(s => s.checked);
+
+  let rowsHtml = "";
+  let total = 0;
+
+  activeServices.forEach((s, i) => {
+    const lineTotal = s.qty * s.price;
+    total += lineTotal;
+    const title = s.labels[currentLang] || s.labels.en;
+    rowsHtml += `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${title}</td>
+        <td>${s.qty}</td>
+        <td>${s.price.toLocaleString()} ${cur}</td>
+        <td><strong>${lineTotal.toLocaleString()} ${cur}</strong></td>
+      </tr>
+    `;
+  });
+
+  const advPct = parseFloat(document.getElementById("advance_pct").value) || 0;
+  const midPct = parseFloat(document.getElementById("mid_pct").value) || 0;
+  const finPct = Math.max(0, 100 - advPct - midPct);
+
+  const advAmt = (total * advPct / 100).toLocaleString();
+  const midAmt = (total * midPct / 100).toLocaleString();
+  const finAmt = (total * finPct / 100).toLocaleString();
+
+  const today = new Date().toLocaleDateString(currentLang === "fa" ? "fa-IR" : (currentLang === "tr" ? "tr-TR" : "en-GB"));
+
+  document.getElementById("contractOutput").innerHTML = `
+    <div class="contract-sheet-header">
+      <div>
+        <h2 style="margin:0; font-size:20px; border:none; padding:0;">${dict.docTitle}</h2>
+        <div style="font-size:12px; color:#5c5b57; margin-top:4px;">REF: JANSE-${Date.now().toString().slice(-6)} | ${today}</div>
+      </div>
+      <img src="IMG_0546.png" style="height:44px;" onerror="this.style.display='none'">
+    </div>
+
+    <div class="grid" style="margin-bottom:20px;">
+      <div style="border:1px solid #c8c5bc; padding:12px;">
+        <strong>${dict.partyA}</strong><br>
+        ${document.getElementById("c_name").value}<br>
+        ${dict.taxNumber}: ${document.getElementById("c_tax").value}<br>
+        ${dict.phone}: ${document.getElementById("c_phone").value}<br>
+        ${document.getElementById("c_addr").value}
+      </div>
+      <div style="border:1px solid #c8c5bc; padding:12px;">
+        <strong>${dict.partyB}</strong><br>
+        ${document.getElementById("cl_name").value}<br>
+        ${dict.clientId}: ${document.getElementById("cl_id").value}<br>
+        ${dict.clientPhone}: ${document.getElementById("cl_phone").value}<br>
+        ${document.getElementById("p_addr").value} (${document.getElementById("p_area").value} m²)
+      </div>
+    </div>
+
+    <table class="contract-table">
+      <thead>
+        <tr>
+          <th style="width:40px;">#</th>
+          <th>${dict.colItem}</th>
+          <th style="width:80px;">${dict.colQty}</th>
+          <th style="width:120px;">${dict.colUnit}</th>
+          <th style="width:130px;">${dict.colTotal}</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsHtml || '<tr><td colspan="5" style="text-align:center;">—</td></tr>'}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="text-align:end;"><strong>${dict.grandTotal}</strong></td>
+          <td><strong style="font-size:15px;">${total.toLocaleString()} ${cur}</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div style="border:1px solid #141413; padding:14px; background:#f6f5f0; margin-bottom:16px;">
+      <strong>${dict.paymentTerms}</strong>
+      <ul style="margin:8px 0 0 0; padding-inline-start:20px;">
+        <li>${advPct}% : <strong>${advAmt} ${cur}</strong></li>
+        <li>${midPct}% : <strong>${midAmt} ${cur}</strong></li>
+        <li>${finPct}% : <strong>${finAmt} ${cur}</strong></li>
+      </ul>
+      <div style="margin-top:8px; font-size:13px;">
+        ${dict.startDate}: <strong>${document.getElementById("start_date").value || "—"}</strong> |
+        ${dict.duration}: <strong>${document.getElementById("duration_days").value}</strong> |
+        ${dict.warranty}: <strong>${document.getElementById("warranty_months").value}</strong>
+      </div>
+    </div>
+
+    <p style="font-size:13px; line-height:1.7;">${dict.legalClause}</p>
+    ${document.getElementById("extra_notes").value ? `<p style="font-size:13px; border-inline-start:3px solid #9a6b2f; padding-inline-start:10px;">${document.getElementById("extra_notes").value}</p>` : ""}
+
+    <div class="signature-grid">
+      <div class="signature-box"><strong>${dict.signContractor}</strong></div>
+      <div class="signature-box"><strong>${dict.signClient}</strong></div>
+    </div>
+  `;
+}
+
+// Initialize
+setLanguage("fa");
+</script>
+</body>
+</html>
